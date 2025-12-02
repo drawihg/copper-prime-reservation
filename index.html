@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>จองโต๊ะ - Copper Prime Premium</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- Flatpickr -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" href="https://npmcdn.com/flatpickr/dist/themes/dark.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://npmcdn.com/flatpickr/dist/l10n/th.js"></script>
+
+    <style>
+        body {
+            font-family: 'Kanit', sans-serif;
+            background-color: #0a0503; /* Very Dark Brown/Black */
+            color: #e0e0e0;
+            background-image: radial-gradient(circle at 50% 0%, #2a150d 0%, #0a0503 70%);
+        }
+
+        h1, h2, h3, .serif-font {
+            font-family: 'Playfair Display', serif; /* Elegant Serif font for headers */
+        }
+
+        /* --- Copper Prime Premium Theme --- */
+        :root {
+            --copper-dark: #4a2511;
+            --copper-base: #8B4513;
+            --copper-metallic: #B87333;
+            --copper-light: #E6A372;
+            --copper-glow: #ffbf80;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0a0503; }
+        ::-webkit-scrollbar-thumb { background: #4a2511; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #B87333; }
+
+        .text-copper { color: var(--copper-metallic); }
+        .text-copper-light { color: var(--copper-light); }
+        
+        .bg-copper-gradient { 
+            background: linear-gradient(135deg, #8B4513 0%, #B87333 50%, #E6A372 100%); 
+        }
+        
+        .border-copper { border-color: var(--copper-metallic); }
+        
+        .copper-text-glow {
+            text-shadow: 0 0 10px rgba(184, 115, 51, 0.4);
+        }
+
+        /* Step Indicators */
+        .step-active {
+            color: var(--copper-light);
+            border-color: var(--copper-metallic);
+        }
+        .step-completed {
+            background: var(--copper-metallic);
+            border-color: transparent;
+            color: #0a0503;
+            box-shadow: 0 0 15px rgba(184, 115, 51, 0.5);
+        }
+        
+        /* Premium Card Styling */
+        .premium-card {
+            background: linear-gradient(180deg, rgba(30,15,10,0.9) 0%, rgba(10,5,3,0.95) 100%);
+            border: 1px solid rgba(184, 115, 51, 0.2);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.6);
+            transition: all 0.4s ease;
+        }
+        .premium-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--copper-metallic);
+            box-shadow: 0 10px 30px rgba(184, 115, 51, 0.15);
+        }
+
+        /* Radio Selection */
+        input[type="radio"]:checked + div {
+            border-color: var(--copper-light);
+            background: linear-gradient(to bottom, rgba(139, 69, 19, 0.2), rgba(0,0,0,0));
+            box-shadow: 0 0 15px rgba(184, 115, 51, 0.2);
+        }
+        input[type="radio"]:checked + div .check-icon {
+            opacity: 1;
+            color: var(--copper-light);
+            text-shadow: 0 0 10px rgba(230, 163, 114, 0.8);
+        }
+        
+        /* Map Button */
+        .map-btn:hover {
+            background-color: rgba(184, 115, 51, 0.2);
+            color: var(--copper-light);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in { animation: fadeIn 0.5s ease-out forwards; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <!-- Navbar -->
+    <nav class="w-full bg-[#0a0503]/90 border-b border-[#4a2511] py-4 px-6 flex justify-between items-center sticky top-0 z-50 backdrop-blur-md">
+        <a href="#" class="flex items-center gap-3 group">
+             <!-- Logo -->
+             <div class="h-10 w-10 bg-gradient-to-br from-[#8B4513] to-[#4a2511] rounded-full flex items-center justify-center shadow-lg border border-[#B87333]">
+                <span class="text-[#E6A372] font-serif font-bold text-lg">C</span>
+            </div>
+            <div class="flex flex-col">
+                <div class="text-xl font-bold tracking-widest uppercase serif-font text-transparent bg-clip-text bg-gradient-to-r from-[#E6A372] via-[#B87333] to-[#8B4513]">
+                    Copper Prime
+                </div>
+                <span class="text-[10px] tracking-[0.2em] text-[#B87333] uppercase">Premium Selection</span>
+            </div>
+        </a>
+        <a href="#" class="text-gray-400 hover:text-[#E6A372] transition text-sm flex items-center gap-2 border border-transparent hover:border-[#4a2511] px-3 py-1 rounded-full">
+            <i class="fas fa-times"></i> <span class="hidden sm:inline">Cancel Booking</span>
+        </a>
+    </nav>
+
+    <!-- Hero / Cover Section -->
+    <header class="relative w-full h-[400px] md:h-[500px] overflow-hidden">
+        <!-- Background Image -->
+        <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1558030006-450675393462?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');"></div>
+        
+        <!-- Gradient Overlay (Dark Copper to Transparent) -->
+        <div class="absolute inset-0 bg-gradient-to-t from-[#0a0503] via-[#0a0503]/60 to-transparent"></div>
+        <div class="absolute inset-0 bg-gradient-to-r from-[#0a0503]/80 to-transparent"></div>
+        
+        <!-- Content -->
+        <div class="absolute bottom-0 left-0 w-full p-8 md:p-16 container mx-auto">
+            <div class="max-w-3xl animate-fade-in">
+                <span class="inline-block px-3 py-1 mb-4 border border-[#B87333] text-[#E6A372] text-xs tracking-[0.2em] uppercase rounded bg-black/50 backdrop-blur-sm">Exclusive Experience</span>
+                <h1 class="text-4xl md:text-6xl font-bold text-white mb-2 leading-tight drop-shadow-lg">
+                    The Art of <br>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#E6A372] via-[#ffbf80] to-[#B87333]">Perfect Steak</span>
+                </h1>
+                <p class="text-gray-300 text-lg md:text-xl font-light italic serif-font">
+                    "สัมผัสสุนทรียภาพแห่งรสชาติ กับเนื้อสเต็กหน้าตู้คัดพิเศษระดับพรีเมียม"
+                </p>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Booking Container -->
+    <main class="flex-grow container mx-auto px-4 py-10 max-w-5xl -mt-20 relative z-10">
+        
+        <!-- Progress Steps -->
+        <div class="bg-[#150a08] border border-[#4a2511] rounded-2xl p-6 shadow-2xl mb-10">
+            <div class="flex justify-between items-center relative px-4 md:px-10">
+                <!-- Connecting Line -->
+                <div class="absolute left-0 top-1/2 transform -translate-y-1/2 w-full h-[1px] bg-[#4a2511] -z-10 mx-10"></div>
+                
+                <div class="step-item flex flex-col items-center gap-2 bg-[#150a08] px-2 cursor-pointer group" onclick="goToStep(1)">
+                    <div id="step-1-indicator" class="w-10 h-10 rounded-full border border-[#B87333] bg-[#B87333] text-[#0a0503] flex items-center justify-center font-bold text-sm shadow-[0_0_10px_rgba(184,115,51,0.6)]">1</div>
+                    <span class="text-xs text-[#E6A372] uppercase tracking-wide hidden sm:block">สาขา</span>
+                </div>
+                <div class="step-item flex flex-col items-center gap-2 bg-[#150a08] px-2 cursor-pointer group" onclick="goToStep(2)">
+                    <div id="step-2-indicator" class="w-10 h-10 rounded-full border border-[#4a2511] bg-[#1e0f0b] text-gray-500 flex items-center justify-center font-bold text-sm transition-all group-hover:border-[#B87333]">2</div>
+                    <span class="text-xs text-gray-500 uppercase tracking-wide hidden sm:block">เวลา</span>
+                </div>
+                <div class="step-item flex flex-col items-center gap-2 bg-[#150a08] px-2 cursor-pointer group" onclick="goToStep(3)">
+                    <div id="step-3-indicator" class="w-10 h-10 rounded-full border border-[#4a2511] bg-[#1e0f0b] text-gray-500 flex items-center justify-center font-bold text-sm transition-all group-hover:border-[#B87333]">3</div>
+                    <span class="text-xs text-gray-500 uppercase tracking-wide hidden sm:block">เมนู</span>
+                </div>
+                <div class="step-item flex flex-col items-center gap-2 bg-[#150a08] px-2">
+                    <div id="step-4-indicator" class="w-10 h-10 rounded-full border border-[#4a2511] bg-[#1e0f0b] text-gray-500 flex items-center justify-center font-bold text-sm transition-all">4</div>
+                    <span class="text-xs text-gray-500 uppercase tracking-wide hidden sm:block">ชำระเงิน</span>
+                </div>
+            </div>
+        </div>
+
+        <form id="bookingForm" onsubmit="return false;">
+            
+            <!-- STEP 1: Branch Selection -->
+            <div id="step-1" class="step-content animate-fade-in">
+                <div class="flex items-end justify-between mb-6 border-b border-[#4a2511] pb-4">
+                    <div>
+                        <h2 class="text-3xl text-[#E6A372] serif-font italic">Select Location</h2>
+                        <p class="text-gray-400 text-sm mt-1">เลือกสาขาที่ให้บริการ Copper Prime Premium</p>
+                    </div>
+                    <div class="text-[#B87333] text-sm"><i class="fas fa-map-marker-alt mr-2"></i>6 Locations Available</div>
+                </div>
+
+                <!-- Branch Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    
+                    <!-- 1. Nong Chok -->
+                    <label class="cursor-pointer relative group h-full">
+                        <input type="radio" name="branch" value="หนองจอก" class="peer sr-only" checked>
+                        <div class="premium-card rounded-xl overflow-hidden h-full flex flex-col">
+                            <!-- Simulated Location Image -->
+                            <div class="h-40 bg-cover bg-center relative" style="background-image: url('https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80');">
+                                <div class="absolute top-3 right-3 bg-black/70 backdrop-blur-sm px-2 py-1 rounded text-[10px] text-[#E6A372] border border-[#B87333]">OPEN NOW</div>
+                            </div>
+                            <div class="p-5 flex flex-col flex-grow">
+                                <div class="flex justify-between items-start mb-2">
+                                    <h3 class="font-bold text-lg text-white group-hover:text-[#E6A372] transition-colors">สาขาหนองจอก</h3>
+                                    <i class="fas fa-check-circle opacity-0 transition check-icon text-xl text-[#B87333]"></i>
+                                </div>
+                                <p class="text-gray-500 text-xs mb-4 flex-grow">บรรยากาศอบอุ่น ชานเมือง เหมาะสำหรับครอบครัว</p>
+                                <div class="flex items-center justify-between pt-3 border-t border-[#4a2511]">
+                                    <span class="text-xs text-gray-400"><i class="far fa-clock mr-1"></i> 10:00 - 22:00</span>
+                                    <button type="button" class="map-btn text-xs text-gray-400 border border-gray-700 rounded-full px-3 py-1 transition-colors hover:border-[#B87333]">
+                                        <i class="fas fa-map-marked-alt text-[#B87333] mr-1"></i> Map
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </label>
+
+                    <!-- 2. Seacon Srinakarin -->
+                    <label class="cursor-pointer relative group h-full">
+                        <input type="radio" name="branch" value="ซีคอน ศรีนครินทร์" class="peer sr-only">
+                        <div class="premium-card rounded-xl overflow-hidden h-full flex flex-col">
+                            <div class="h-40 bg-cover bg-center relative" style="background-image: url('https://images.unsplash.com/photo-1552566626-52f8b828add9?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80');"></div>
+                            <div class="p-5 flex flex-col flex-grow">
+                                <div class="flex justify-between items-start mb-2">
+                                    <h3 class="font-bold text-lg text-white group-hover:text-[#E6A372] transition-colors">ซีคอน ศรีนครินทร์</h3>
+                                    <i class="fas fa-check-circle opacity-0 transition check-icon text-xl text-[#B87333]"></i>
+                                </div>
+                                <p class="text-gray-500 text-xs mb-4 flex-grow">ชั้น 4 โซนร้านอาหาร ฝั่งโรบินสัน</p>
+                                <div class="flex items-center justify-between pt-3 border-t border-[#4a2511]">
+                                    <span class="text-xs text-gray-400"><i class="far fa-clock mr-1"></i> 10:30 - 21:30</span>
+                                    <button type="button" class="map-btn text-xs text-gray-400 border border-gray-700 rounded-full px-3 py-1 transition-colors hover:border-[#B87333]">
+                                        <i class="fas fa-map-marked-alt text-[#B87333] mr-1"></i> Map
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </label>
+
+                    <!-- 3. Westgate -->
+                    <label class="cursor-pointer relative group h-full">
+                        <input type="radio" name="branch" value="เวสต์เกต" class="peer sr-only">
+                        <div class="premium-card rounded-xl overflow-hidden h-full flex flex-col">
+                            <div class="h-40 bg-cover bg-center relative" style="background-image: url('https://images.unsplash.com/photo-1555396273-367ea4eb4db5?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80');"></div>
+                            <div class="p-5 flex flex-col flex-grow">
+                                <div class="flex justify-between items-start mb-2">
+                                    <h3 class="font-bold text-lg text-white group-hover:text-[#E6A372] transition-colors">เซ็นทรัล เวสต์เกต</h3>
+                                    <i class="fas fa-check-circle opacity-0 transition check-icon text-xl text-[#B87333]"></i>
+                                </div>
+                                <p class="text-gray-500 text-xs mb-4 flex-grow">ชั้น 3 ใกล้โรงภาพยนตร์ Westgate Cineplex</p>
+                                <div class="flex items-center justify-between pt-3 border-t border-[#4a2511]">
+                                    <span class="text-xs text-gray-400"><i class="far fa-clock mr-1"></i> 10:00 - 22:00</span>
+                                    <button type="button" class="map-btn text-xs text-gray-400 border border-gray-700 rounded-full px-3 py-1 transition-colors hover:border-[#B87333]">
+                                        <i class="fas fa-map-marked-alt text-[#B87333] mr-1"></i> Map
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </label>
+
+                    <!-- 4. Bang O -->
+                    <label class="cursor-pointer relative group h-full">
+                        <input type="radio" name="branch" value="บางอ้อ" class="peer sr-only">
+                        <div class="premium-card rounded-xl overflow-hidden h-full flex flex-col">
+                            <div class="h-40 bg-cover bg-center relative" style="background-image: url('https://images.unsplash.com/photo-1559339352-11d035aa65de?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80');"></div>
+                            <div class="p-5 flex flex-col flex-grow">
+                                <div class="flex justify-between items-start mb-2">
+                                    <h3 class="font-bold text-lg text-white group-hover:text-[#E6A372] transition-colors">สาขาบางอ้อ</h3>
+                                    <i class="fas fa-check-circle opacity-0 transition check-icon text-xl text-[#B87333]"></i>
+                                </div>
+                                <p class="text-gray-500 text-xs mb-4 flex-grow">ติดสถานีรถไฟฟ้า MRT บางอ้อ วิวแม่น้ำเจ้าพระยา</p>
+                                <div class="flex items-center justify-between pt-3 border-t border-[#4a2511]">
+                                    <span class="text-xs text-gray-400"><i class="far fa-clock mr-1"></i> 11:00 - 22:00</span>
+                                    <button type="button" class="map-btn text-xs text-gray-400 border border-gray-700 rounded-full px-3 py-1 transition-colors hover:border-[#B87333]">
+                                        <i class="fas fa-map-marked-alt text-[#B87333] mr-1"></i> Map
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </label>
+
+                    <!-- 5. Samyan Mitrtown -->
+                    <label class="cursor-pointer relative group h-full">
+                        <input type="radio" name="branch" value="สามย่านมิตรทาวน์" class="peer sr-only">
+                        <div class="premium-card rounded-xl overflow-hidden h-full flex flex-col">
+                            <div class="h-40 bg-cover bg-center relative" style="background-image: url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80');"></div>
+                            <div class="p-5 flex flex-col flex-grow">
+                                <div class="flex justify-between items-start mb-2">
+                                    <h3 class="font-bold text-lg text-white group-hover:text-[#E6A372] transition-colors">สามย่านมิตรทาวน์</h3>
+                                    <i class="fas fa-check-circle opacity-0 transition check-icon text-xl text-[#B87333]"></i>
+                                </div>
+                                <p class="text-gray-500 text-xs mb-4 flex-grow">ชั้น B1 โซน 24 ชั่วโมง ใจกลางเมือง</p>
+                                <div class="flex items-center justify-between pt-3 border-t border-[#4a2511]">
+                                    <span class="text-xs text-gray-400"><i class="far fa-clock mr-1"></i> 24 Hours</span>
+                                    <button type="button" class="map-btn text-xs text-gray-400 border border-gray-700 rounded-full px-3 py-1 transition-colors hover:border-[#B87333]">
+                                        <i class="fas fa-map-marked-alt text-[#B87333] mr-1"></i> Map
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </label>
+
+                    <!-- 6. Central World -->
+                    <label class="cursor-pointer relative group h-full">
+                        <input type="radio" name="branch" value="เซ็นทรัลเวิลด์" class="peer sr-only">
+                        <div class="premium-card rounded-xl overflow-hidden h-full flex flex-col">
+                            <div class="h-40 bg-cover bg-center relative" style="background-image: url('https://images.unsplash.com/photo-1550966871-3ed3c47e2ce2?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80');">
+                                <div class="absolute top-3 right-3 bg-[#B87333] px-2 py-1 rounded text-[10px] text-white font-bold shadow-lg">FLAGSHIP</div>
+                            </div>
+                            <div class="p-5 flex flex-col flex-grow">
+                                <div class="flex justify-between items-start mb-2">
+                                    <h3 class="font-bold text-lg text-white group-hover:text-[#E6A372] transition-colors">เซ็นทรัลเวิลด์</h3>
+                                    <i class="fas fa-check-circle opacity-0 transition check-icon text-xl text-[#B87333]"></i>
+                                </div>
+                                <p class="text-gray-500 text-xs mb-4 flex-grow">ชั้น 7 โซน Beacon ประสบการณ์ที่สุดของเนื้อแท้</p>
+                                <div class="flex items-center justify-between pt-3 border-t border-[#4a2511]">
+                                    <span class="text-xs text-gray-400"><i class="far fa-clock mr-1"></i> 10:00 - 22:00</span>
+                                    <button type="button" class="map-btn text-xs text-gray-400 border border-gray-700 rounded-full px-3 py-1 transition-colors hover:border-[#B87333]">
+                                        <i class="fas fa-map-marked-alt text-[#B87333] mr-1"></i> Map
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </label>
+
+                </div>
+            </div>
+
+            <!-- STEP 2: Date, Time, Pax -->
+            <div id="step-2" class="step-content hidden animate-fade-in">
+                <div class="text-center mb-10">
+                    <h2 class="text-3xl text-[#E6A372] serif-font italic">Reservation Details</h2>
+                </div>
+
+                <div class="premium-card p-8 rounded-2xl relative overflow-hidden max-w-2xl mx-auto">
+                    <!-- Background Glow -->
+                    <div class="absolute -top-20 -right-20 w-60 h-60 bg-[#B87333] opacity-5 rounded-full filter blur-3xl"></div>
+
+                    <!-- Pax -->
+                    <div class="mb-8">
+                        <label class="block text-[#B87333] text-xs font-bold tracking-widest uppercase mb-4">Party Size</label>
+                        <div class="flex items-center justify-center gap-6">
+                            <button type="button" class="w-12 h-12 rounded-full border border-[#4a2511] text-gray-400 hover:border-[#B87333] hover:text-[#E6A372] hover:bg-[#1e0f0b] transition-all" onclick="updatePax(-1)"><i class="fas fa-minus"></i></button>
+                            <div class="flex flex-col items-center w-24">
+                                <input type="number" id="paxInput" value="2" class="bg-transparent text-center text-4xl font-serif text-white w-full border-none focus:ring-0 p-0" readonly>
+                                <span class="text-xs text-gray-500 uppercase tracking-widest mt-1">Guests</span>
+                            </div>
+                            <button type="button" class="w-12 h-12 rounded-full bg-gradient-to-br from-[#8B4513] to-[#B87333] text-white shadow-lg hover:shadow-[#B87333]/40 transition-all border border-[#E6A372]/30" onclick="updatePax(1)"><i class="fas fa-plus"></i></button>
+                        </div>
+                    </div>
+
+                    <div class="border-t border-[#4a2511] my-6"></div>
+
+                    <!-- Date -->
+                    <div class="mb-6">
+                        <label class="block text-[#B87333] text-xs font-bold tracking-widest uppercase mb-3">Date</label>
+                        <div class="relative group">
+                            <input type="text" id="datePicker" class="w-full bg-[#0a0503] border border-[#4a2511] rounded-xl p-4 text-white text-center font-serif tracking-wide focus:border-[#B87333] focus:ring-0 transition-all cursor-pointer group-hover:border-[#8B4513]" placeholder="Select your date">
+                            <i class="far fa-calendar-alt absolute right-4 top-1/2 transform -translate-y-1/2 text-[#B87333]"></i>
+                        </div>
+                    </div>
+
+                    <!-- Time -->
+                    <div>
+                        <label class="block text-[#B87333] text-xs font-bold tracking-widest uppercase mb-3">Time Slot</label>
+                        <div class="grid grid-cols-3 sm:grid-cols-4 gap-3">
+                            <label class="cursor-pointer">
+                                <input type="radio" name="time" value="11:00" class="peer sr-only">
+                                <div class="py-2 rounded border border-[#4a2511] bg-[#0a0503] text-center text-sm text-gray-400 peer-checked:border-[#B87333] peer-checked:text-[#E6A372] transition-all hover:border-gray-600">11:00</div>
+                            </label>
+                            <label class="cursor-pointer">
+                                <input type="radio" name="time" value="12:00" class="peer sr-only">
+                                <div class="py-2 rounded border border-[#4a2511] bg-[#0a0503] text-center text-sm text-gray-400 peer-checked:border-[#B87333] peer-checked:text-[#E6A372] transition-all hover:border-gray-600">12:00</div>
+                            </label>
+                            <label class="cursor-pointer">
+                                <input type="radio" name="time" value="13:00" class="peer sr-only">
+                                <div class="py-2 rounded border border-[#4a2511] bg-[#0a0503] text-center text-sm text-gray-400 peer-checked:border-[#B87333] peer-checked:text-[#E6A372] transition-all hover:border-gray-600">13:00</div>
+                            </label>
+                            <label class="cursor-pointer">
+                                <input type="radio" name="time" value="17:00" class="peer sr-only">
+                                <div class="py-2 rounded border border-[#4a2511] bg-[#0a0503] text-center text-sm text-gray-400 peer-checked:border-[#B87333] peer-checked:text-[#E6A372] transition-all hover:border-gray-600">17:00</div>
+                            </label>
+                            <label class="cursor-pointer">
+                                <input type="radio" name="time" value="18:00" class="peer sr-only" checked>
+                                <div class="py-2 rounded border border-[#4a2511] bg-[#0a0503] text-center text-sm text-gray-400 peer-checked:border-[#B87333] peer-checked:text-[#E6A372] transition-all hover:border-gray-600">18:00</div>
+                            </label>
+                            <label class="cursor-pointer">
+                                <input type="radio" name="time" value="19:00" class="peer sr-only">
+                                <div class="py-2 rounded border border-[#4a2511] bg-[#0a0503] text-center text-sm text-gray-400 peer-checked:border-[#B87333] peer-checked:text-[#E6A372] transition-all hover:border-gray-600">19:00</div>
+                            </label>
+                            <label class="cursor-pointer">
+                                <input type="radio" name="time" value="20:00" class="peer sr-only">
+                                <div class="py-2 rounded border border-[#4a2511] bg-[#0a0503] text-center text-sm text-gray-400 peer-checked:border-[#B87333] peer-checked:text-[#E6A372] transition-all hover:border-gray-600">20:00</div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STEP 3: Pre-order Menu -->
+            <div id="step-3" class="step-content hidden animate-fade-in">
+                <div class="flex items-end justify-between mb-6 border-b border-[#4a2511] pb-4">
+                    <div>
+                        <h2 class="text-3xl text-[#E6A372] serif-font italic">Select Your Cut</h2>
+                        <p class="text-gray-400 text-sm mt-1">เลือกสเต็กหน้าตู้ที่คุณต้องการ (Pre-order)</p>
+                    </div>
+                </div>
+
+                <div class="space-y-6">
+                    <!-- Menu Item 1 -->
+                    <div class="premium-card rounded-xl overflow-hidden group flex flex-col md:flex-row h-auto md:h-48">
+                        <div class="w-full md:w-1/3 h-48 md:h-full bg-cover bg-center relative" style="background-image: url('https://images.unsplash.com/photo-1600891964092-4316c288032e?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80');">
+                            <div class="absolute top-2 left-2 bg-[#B87333] text-white text-[10px] px-2 py-1 uppercase tracking-widest font-bold">Recommended</div>
+                        </div>
+                        <div class="w-full md:w-2/3 p-6 flex flex-col justify-between relative">
+                            <!-- Glow effect behind text -->
+                            <div class="absolute right-0 top-0 w-32 h-32 bg-[#B87333] opacity-5 rounded-full filter blur-2xl pointer-events-none"></div>
+                            
+                            <div>
+                                <h4 class="font-serif text-2xl text-white group-hover:text-[#E6A372] transition-colors">Australian Wagyu Ribeye</h4>
+                                <p class="text-[#B87333] text-xs uppercase tracking-widest mb-2">Marbling Score 4/5 • Grain Fed 300 Days</p>
+                                <p class="text-gray-400 text-sm font-light">เนื้อวากิวออสเตรเลียส่วนริบอาย ลายไขมันแทรกสวยงาม ให้รสสัมผัสที่นุ่มละมุนลิ้น</p>
+                            </div>
+                            <div class="flex items-end justify-between mt-4">
+                                <span class="text-2xl text-[#E6A372] font-serif italic">฿1,890</span>
+                                <label class="flex items-center gap-3 cursor-pointer select-none border border-[#4a2511] px-4 py-2 rounded hover:border-[#B87333] transition-all bg-[#0a0503]">
+                                    <span class="text-xs text-gray-300 uppercase tracking-wide">Add to Order</span>
+                                    <input type="checkbox" name="preorder" value="1890" data-name="Aus Wagyu Ribeye" class="w-4 h-4 rounded border-gray-600 text-[#B87333] focus:ring-0 bg-[#1e0f0b]" onchange="updateTotal()">
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Menu Item 2 -->
+                    <div class="premium-card rounded-xl overflow-hidden group flex flex-col md:flex-row h-auto md:h-48">
+                        <div class="w-full md:w-1/3 h-48 md:h-full bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1546833999-b9f581a1996d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80');"></div>
+                        <div class="w-full md:w-2/3 p-6 flex flex-col justify-between">
+                            <div>
+                                <h4 class="font-serif text-2xl text-white group-hover:text-[#E6A372] transition-colors">Dry-Aged T-Bone (45 Days)</h4>
+                                <p class="text-[#B87333] text-xs uppercase tracking-widest mb-2">Local Beef • Dry Aged In-House</p>
+                                <p class="text-gray-400 text-sm font-light">ที-โบน สเต็ก บ่มแห้ง 45 วัน เพื่อดึงรสชาติเข้มข้นของเนื้อออกมาอย่างเต็มที่</p>
+                            </div>
+                            <div class="flex items-end justify-between mt-4">
+                                <span class="text-2xl text-[#E6A372] font-serif italic">฿1,450</span>
+                                <label class="flex items-center gap-3 cursor-pointer select-none border border-[#4a2511] px-4 py-2 rounded hover:border-[#B87333] transition-all bg-[#0a0503]">
+                                    <span class="text-xs text-gray-300 uppercase tracking-wide">Add to Order</span>
+                                    <input type="checkbox" name="preorder" value="1450" data-name="Dry-Aged T-Bone" class="w-4 h-4 rounded border-gray-600 text-[#B87333] focus:ring-0 bg-[#1e0f0b]" onchange="updateTotal()">
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STEP 4: Payment -->
+            <div id="step-4" class="step-content hidden animate-fade-in">
+                <div class="text-center mb-10">
+                    <h2 class="text-3xl text-[#E6A372] serif-font italic">Confirmation</h2>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- Summary Card -->
+                    <div class="premium-card p-6 rounded-xl relative overflow-hidden">
+                        <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[#8B4513] via-[#B87333] to-[#E6A372]"></div>
+                        <h3 class="text-xl font-serif text-white mb-6 border-b border-[#4a2511] pb-4">Booking Summary</h3>
+                        
+                        <div class="space-y-4 mb-6">
+                            <div class="flex justify-between text-sm">
+                                <span class="text-gray-500 uppercase tracking-wide">Location</span>
+                                <span class="text-[#E6A372] font-bold" id="summary-branch">...</span>
+                            </div>
+                            <div class="flex justify-between text-sm">
+                                <span class="text-gray-500 uppercase tracking-wide">Date & Time</span>
+                                <span class="text-white"><span id="summary-date">...</span> at <span id="summary-time">...</span></span>
+                            </div>
+                            <div class="flex justify-between text-sm">
+                                <span class="text-gray-500 uppercase tracking-wide">Guests</span>
+                                <span class="text-white" id="summary-pax">...</span>
+                            </div>
+                        </div>
+
+                        <div class="bg-[#0a0503] p-4 rounded border border-[#4a2511]">
+                            <h4 class="text-xs text-[#B87333] uppercase tracking-widest mb-3">Pre-order Items</h4>
+                            <div id="summary-items" class="space-y-2 text-sm text-gray-400">
+                                <p class="italic text-xs">- No items selected -</p>
+                            </div>
+                        </div>
+
+                        <div class="mt-6 flex justify-between items-end">
+                            <span class="text-gray-500 text-xs uppercase tracking-wide">Total Estimate</span>
+                            <span class="text-3xl font-serif text-transparent bg-clip-text bg-gradient-to-r from-[#E6A372] to-[#B87333]" id="summary-total">฿0</span>
+                        </div>
+                    </div>
+
+                    <!-- Payment Method -->
+                    <div class="space-y-6">
+                        <h3 class="text-xl font-serif text-white">Payment Method</h3>
+                        
+                        <!-- Tabs -->
+                        <div class="flex p-1 bg-[#0a0503] rounded-lg border border-[#4a2511]">
+                            <button type="button" class="flex-1 py-2 text-xs uppercase tracking-wider rounded text-gray-400 hover:text-white transition-colors" onclick="switchTab('promptpay', this)">PromptPay</button>
+                            <button type="button" class="flex-1 py-2 text-xs uppercase tracking-wider rounded bg-[#1e0f0b] text-[#E6A372] border border-[#B87333] shadow-lg" onclick="switchTab('creditcard', this)">Credit Card</button>
+                            <button type="button" class="flex-1 py-2 text-xs uppercase tracking-wider rounded text-gray-400 hover:text-white transition-colors" onclick="switchTab('cash', this)">Cash</button>
+                        </div>
+
+                        <!-- Content Placeholders -->
+                        <div id="tab-promptpay" class="payment-tab hidden h-64 bg-white rounded-xl flex flex-col items-center justify-center text-black relative overflow-hidden">
+                            <div class="absolute inset-0 border-4 border-[#B87333]/20"></div>
+                            <i class="fas fa-qrcode text-6xl text-gray-800 mb-4"></i>
+                            <p class="font-bold">Scan QR Code</p>
+                        </div>
+
+                        <div id="tab-creditcard" class="payment-tab h-64 premium-card rounded-xl p-6 flex flex-col justify-center space-y-4">
+                            <input type="text" placeholder="Card Number" class="bg-[#0a0503] border border-[#4a2511] p-3 rounded text-white text-sm focus:border-[#B87333] outline-none">
+                            <div class="flex gap-4">
+                                <input type="text" placeholder="MM/YY" class="bg-[#0a0503] border border-[#4a2511] p-3 rounded text-white text-sm focus:border-[#B87333] outline-none w-1/2">
+                                <input type="text" placeholder="CVC" class="bg-[#0a0503] border border-[#4a2511] p-3 rounded text-white text-sm focus:border-[#B87333] outline-none w-1/2">
+                            </div>
+                        </div>
+
+                        <div id="tab-cash" class="payment-tab hidden h-64 premium-card rounded-xl flex flex-col items-center justify-center text-center p-6">
+                            <i class="fas fa-wallet text-4xl text-[#B87333] mb-4"></i>
+                            <p class="text-white font-serif text-lg">Pay at Restaurant</p>
+                            <p class="text-gray-500 text-xs mt-2">Please arrive 15 minutes before your booking time.</p>
+                        </div>
+
+                        <!-- User Info -->
+                        <div class="space-y-3 pt-4 border-t border-[#4a2511]">
+                            <input type="text" placeholder="Your Name" class="w-full bg-transparent border-b border-[#4a2511] py-2 text-sm text-white focus:border-[#B87333] outline-none placeholder-gray-600 transition-colors">
+                            <input type="tel" placeholder="Phone Number" class="w-full bg-transparent border-b border-[#4a2511] py-2 text-sm text-white focus:border-[#B87333] outline-none placeholder-gray-600 transition-colors">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Navigation Actions -->
+            <div class="flex justify-between mt-12 pt-8 border-t border-[#4a2511]">
+                <button type="button" id="prevBtn" class="px-6 py-2 text-gray-500 hover:text-[#E6A372] transition-colors hidden" onclick="changeStep(-1)">
+                    <i class="fas fa-long-arrow-alt-left mr-2"></i> Back
+                </button>
+                <button type="button" id="nextBtn" class="ml-auto px-8 py-3 bg-gradient-to-r from-[#8B4513] to-[#B87333] hover:from-[#B87333] hover:to-[#E6A372] text-white text-sm font-bold uppercase tracking-widest rounded shadow-lg shadow-[#B87333]/20 transform hover:-translate-y-1 transition-all" onclick="changeStep(1)">
+                    Next Step <i class="fas fa-long-arrow-alt-right ml-2"></i>
+                </button>
+            </div>
+        </form>
+    </main>
+
+    <footer class="bg-[#050201] py-10 text-center border-t border-[#4a2511] mt-auto">
+        <div class="text-[#B87333] font-serif text-2xl font-bold italic mb-4">Copper Prime</div>
+        <div class="flex justify-center gap-6 mb-6 text-gray-600">
+            <a href="#" class="hover:text-[#E6A372] transition-colors"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="hover:text-[#E6A372] transition-colors"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="hover:text-[#E6A372] transition-colors"><i class="fab fa-line"></i></a>
+        </div>
+        <p class="text-gray-600 text-xs">© 2025 Copper Prime Premium by Nuatare. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        // Init Flatpickr
+        flatpickr("#datePicker", {
+            locale: "th",
+            minDate: "today",
+            dateFormat: "d F Y",
+            disableMobile: "true",
+            theme: "dark"
+        });
+
+        let currentStep = 1;
+        const totalSteps = 4;
+
+        function changeStep(n) {
+            goToStep(currentStep + n);
+        }
+
+        function goToStep(step) {
+            if (step < 1 || step > totalSteps) return;
+
+            // UI Updates
+            document.querySelectorAll('.step-content').forEach(el => el.classList.add('hidden'));
+            document.getElementById(`step-${step}`).classList.remove('hidden');
+
+            // Indicator Updates
+            for (let i = 1; i <= totalSteps; i++) {
+                const indicator = document.getElementById(`step-${i}-indicator`);
+                if (i < step) {
+                    indicator.className = "w-10 h-10 rounded-full bg-gradient-to-br from-[#8B4513] to-[#B87333] text-white flex items-center justify-center font-bold text-sm shadow-md border border-[#E6A372]";
+                    indicator.innerHTML = '<i class="fas fa-check"></i>';
+                } else if (i === step) {
+                    indicator.className = "w-10 h-10 rounded-full bg-[#B87333] text-white flex items-center justify-center font-bold text-sm shadow-[0_0_15px_rgba(184,115,51,0.6)] border border-[#E6A372] scale-110 transition-transform";
+                    indicator.innerHTML = i;
+                } else {
+                    indicator.className = "w-10 h-10 rounded-full border border-[#4a2511] bg-[#1e0f0b] text-gray-600 flex items-center justify-center font-bold text-sm transition-all";
+                    indicator.innerHTML = i;
+                }
+            }
+
+            // Buttons
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            
+            if (step === 1) prevBtn.classList.add('hidden');
+            else prevBtn.classList.remove('hidden');
+
+            if (step === totalSteps) {
+                nextBtn.innerHTML = 'Confirm Booking';
+                nextBtn.onclick = function() { alert('Thank you! Your premium table is booked.'); };
+            } else {
+                nextBtn.innerHTML = 'Next Step <i class="fas fa-long-arrow-alt-right ml-2"></i>';
+                nextBtn.onclick = function() { changeStep(1); };
+            }
+
+            currentStep = step;
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            
+            if(step === 4) updateSummary();
+        }
+
+        function updatePax(change) {
+            const input = document.getElementById('paxInput');
+            let val = parseInt(input.value) + change;
+            if (val < 1) val = 1;
+            input.value = val;
+        }
+
+        function switchTab(tabName, btn) {
+            document.querySelectorAll('.payment-tab').forEach(el => el.classList.add('hidden'));
+            document.getElementById(`tab-${tabName}`).classList.remove('hidden');
+            
+            // Reset styles
+            const buttons = btn.parentElement.querySelectorAll('button');
+            buttons.forEach(b => {
+                b.className = "flex-1 py-2 text-xs uppercase tracking-wider rounded text-gray-400 hover:text-white transition-colors";
+            });
+            
+            // Active style
+            btn.className = "flex-1 py-2 text-xs uppercase tracking-wider rounded bg-[#1e0f0b] text-[#E6A372] border border-[#B87333] shadow-lg";
+        }
+
+        function updateTotal() {
+            // Trigger update
+        }
+
+        function updateSummary() {
+            const branch = document.querySelector('input[name="branch"]:checked')?.value || "-";
+            document.getElementById('summary-branch').innerText = branch;
+
+            const date = document.getElementById('datePicker').value || "Date not selected";
+            const time = document.querySelector('input[name="time"]:checked')?.value || "--:--";
+            document.getElementById('summary-date').innerText = date;
+            document.getElementById('summary-time').innerText = time;
+            document.getElementById('summary-pax').innerText = document.getElementById('paxInput').value + " Guests";
+
+            let total = 0;
+            let itemsHtml = '';
+            document.querySelectorAll('input[name="preorder"]:checked').forEach(item => {
+                total += parseInt(item.value);
+                itemsHtml += `<div class="flex justify-between"><span class="text-white">${item.dataset.name}</span><span class="text-[#E6A372]">฿${parseInt(item.value).toLocaleString()}</span></div>`;
+            });
+
+            if(itemsHtml === '') itemsHtml = '<p class="italic text-xs">- No items selected -</p>';
+            
+            document.getElementById('summary-items').innerHTML = itemsHtml;
+            document.getElementById('summary-total').innerText = '฿' + total.toLocaleString();
+        }
+    </script>
+</body>
+</html>
